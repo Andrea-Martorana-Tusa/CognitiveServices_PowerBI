@@ -1,0 +1,20 @@
+(picture_url) => let
+	apikey ="<YOUR API KEY>",
+	endpoint = "https://YOURENDPOINT.cognitiveservices.azure.com",
+	relativepath = "computervision/imageanalysis:analyze",
+	query = [#"api-version" = "2023-10-01",#"features" = "tags",#"model-version" = "latest",#"language" = "en",#"smartcrops-aspect-ratios"= "1",#"gender-neutral-caption" = "False"],
+	headers = [#"Content-Type" = "application/json",#"Ocp-Apim-Subscription-Key" = apikey],
+	jsontext = Text.FromBinary(Json.FromValue(picture_url)),
+	jsonbody = "{url:" & jsontext & "}",
+	bytesbody = Text.ToBinary(jsonbody),
+	bytesresp = Web.Contents(
+		endpoint,
+		[
+			RelativePath = relativepath,
+			Query = query,
+			Headers = headers,
+			Content = bytesbody
+		]
+	),
+	jsonresp = Json.Document(bytesresp)
+in jsonresp
