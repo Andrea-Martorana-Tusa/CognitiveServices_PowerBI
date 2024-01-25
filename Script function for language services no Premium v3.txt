@@ -1,0 +1,48 @@
+Sample function to call Text Analytics AI Services in Power BI without having a Premiun license.
+New API format (v3). 
+Create an M function in Power Query, using the script below. 
+Pre-requisite is a subscription to Azure AI Services. 
+
+Link to the full Microsoft tutorial: 
+https://learn.microsoft.com/en-us/azure/ai-services/language-service/key-phrase-extraction/tutorials/integrate-power-bi
+
+Link to the API documentation: 
+https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/migrate-language-service-latest
+https://learn.microsoft.com/en-us/rest/api/language/text-analysis-runtime/analyze-text?view=rest-language-2023-04-01&tabs=HTTP
+
+
+//------------------------------------------------------------------------------------------------------
+(text) => let
+    apikey      = "YOUR_API_KEY_HERE",
+    endpoint    = "https://<your-custom-subdomain>.cognitiveservices.azure.com/",
+    relativepath = "language/:analyze-text",
+    query = [#"api-version" = "2023-04-01"],
+    headers = [#"Content-Type" = "application/json",#"Ocp-Apim-Subscription-Key" = apikey],
+    jsontext = Text.FromBinary(Json.FromValue(Text.Start(Text.Trim(text), 5000))),
+    jsonbody = "
+        {
+            ""kind"": ""KeyPhraseExtraction"",
+            ""parameters"": {
+                ""modelVersion"": ""latest""
+            },
+            ""analysisInput"": {
+               ""documents"": [
+                    {
+                        ""id"": ""1"",
+                        ""text"": " & jsontext & "
+                    }              
+                ]
+            }
+        }",
+   	bytesbody = Text.ToBinary(jsonbody),
+	bytesresp = Web.Contents(
+		endpoint,
+		[
+			RelativePath = relativepath,
+			Query = query,
+			Headers = headers,
+			Content = bytesbody
+		]
+	),
+	jsonresp = Json.Document(bytesresp)
+in jsonresp
