@@ -1,4 +1,4 @@
-Sample function to call Text Analytics AI Services in Power BI without having a Premiun license.
+Sample function to call Text Analysis AI Services in Power BI without having a Premiun license.
 New API format (v3). 
 Create an M function in Power Query, using the script below. 
 Pre-requisite is a subscription to Azure AI Services. 
