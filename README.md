@@ -16,7 +16,7 @@ contain the M code used to call the services without having a Premium capacity. 
 ------------------------------------------------------------------
 Follow the Microsoft tutorial: Extract Key phrases from text stored in Power BI. https://learn.microsoft.com/en-us/azure/ai-services/language-service/key-phrase-extraction/tutorials/integrate-power-bi
 
-For Text Analytics: check out the dismission of the current API version (v2) and the adoption of the new format (v3). More info here:
+For Text Analysis: check out the dismission of the current API version (v2.x) and the adoption of the new format (v3). More info here:
 https://learn.microsoft.com/en-us/azure/ai-services/language-service/concepts/migrate-language-service-latest
 
 https://learn.microsoft.com/en-us/rest/api/language/text-analysis-runtime/analyze-text?view=rest-language-2023-04-01&tabs=HTTP
